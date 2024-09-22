@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  id     Int      @id @default(autoincrement())
+  nombre String?  @db.VarChar(255)
+  Ticket Ticket[]
+}
+
+model Clientes {
+  id       Int      @id @default(autoincrement())
+  nombre   String   @db.VarChar(50)
+  apellido String   @db.VarChar(50)
+  email    String   @unique(map: "email") @db.VarChar(100)
+  Ticket   Ticket[]
+}
+
+model Comentario {
+  id_comentario                           Int       @unique @default(autoincrement())
+  tipo                                    String    @db.VarChar(50)
+  detalle                                 String    @db.Text
+  id_ticket                               Int
+  id_usuario                              Int?
+  fecha_comentario                        DateTime? @db.DateTime(0)
+  Ticket                                  Ticket    @relation(fields: [id_ticket], references: [id_ticket], onUpdate: Restrict, map: "Comentario_ibfk_1")
+  Usuario                                 Usuario?  @relation(fields: [id_usuario], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "Comentario_ibfk_2")
+  Ticket_Ticket_id_comentarioToComentario Ticket[]  @relation("Ticket_id_comentarioToComentario")
+
+  @@id([id_comentario, id_ticket])
+  @@index([id_usuario], map: "Comentario_ibfk_2")
+  @@index([id_ticket], map: "id_ticket")
+  @@index([id_comentario], map: "id_comentario")
+}
+
+model Estado {
+  id     Int      @id @default(autoincrement())
+  nombre String?  @db.VarChar(255)
+  Ticket Ticket[]
+}
+
+model Prioridad {
+  id     Int      @id @default(autoincrement())
+  nombre String?  @db.VarChar(255)
+  Ticket Ticket[]
+}
+
+model Ticket {
+  id_ticket                                     Int          @id @default(autoincrement())
+  titulo                                        String       @db.VarChar(100)
+  descripcion                                   String       @db.Text
+  fecha_solicitud                               DateTime?    @db.DateTime(0)
+  fecha_cierre                                  DateTime?    @db.DateTime(0)
+  estadoid                                      Int?
+  prioridadid                                   Int?
+  categoriaid                                   Int?
+  id_usuario_creacion                           Int?
+  id_usuario_asignacion                         Int?
+  id_cliente                                    Int?
+  id_comentario                                 Int?
+  Comentario                                    Comentario[]
+  Usuario_Ticket_id_usuario_creacionToUsuario   Usuario?     @relation("Ticket_id_usuario_creacionToUsuario", fields: [id_usuario_creacion], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_1")
+  Usuario_Ticket_id_usuario_asignacionToUsuario Usuario?     @relation("Ticket_id_usuario_asignacionToUsuario", fields: [id_usuario_asignacion], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_2")
+  Clientes                                      Clientes?    @relation(fields: [id_cliente], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_3")
+  Estado                                        Estado?      @relation(fields: [estadoid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_4")
+  Prioridad                                     Prioridad?   @relation(fields: [prioridadid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_5")
+  Categoria                                     Categoria?   @relation(fields: [categoriaid], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_6")
+  Comentario_Ticket_id_comentarioToComentario   Comentario?  @relation("Ticket_id_comentarioToComentario", fields: [id_comentario], references: [id_comentario], onDelete: NoAction, onUpdate: NoAction, map: "Ticket_ibfk_7")
+
+  @@index([id_usuario_creacion], map: "Ticket_ibfk_1")
+  @@index([id_usuario_asignacion], map: "Ticket_ibfk_2")
+  @@index([id_cliente], map: "Ticket_ibfk_3")
+  @@index([estadoid], map: "Ticket_ibfk_4")
+  @@index([prioridadid], map: "Ticket_ibfk_5")
+  @@index([categoriaid], map: "Ticket_ibfk_6")
+  @@index([id_comentario], map: "Ticket_ibfk_7")
+  @@index([id_ticket], map: "id_ticket")
+}
+
+model Usuario {
+  id                                           Int             @id @default(autoincrement())
+  nombre                                       String          @db.VarChar(50)
+  apellido                                     String          @db.VarChar(50)
+  email                                        String          @unique(map: "email") @db.VarChar(100)
+  nombre_usuario                               String          @unique(map: "nombre_usuario") @db.VarChar(50)
+  password                                     String          @db.VarChar(100)
+  token                                        String?         @db.VarChar(100)
+  rol                                          String?         @db.VarChar(50)
+  estado                                       Usuario_estado? @default(Activo)
+  Comentario                                   Comentario[]
+  Ticket_Ticket_id_usuario_creacionToUsuario   Ticket[]        @relation("Ticket_id_usuario_creacionToUsuario")
+  Ticket_Ticket_id_usuario_asignacionToUsuario Ticket[]        @relation("Ticket_id_usuario_asignacionToUsuario")
+}
+
+model auth {
+  id       Int    @id
+  usuario  String @db.VarChar(20)
+  password String @db.VarChar(100)
+}
+
+enum Usuario_estado {
+  Activo
+  Inactivo
+}
