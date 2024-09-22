@@ -26,4 +26,4 @@ app.use(cors(corsOptions));
 app.use('/api', registerRoutes, loginRoutes, listarTickets, busquedaTicket, adminUsuarios, adminticktes, comentarios, adminclientes)
 
 app.listen(4000)
-console.log('Server corriendo en http://aps.pregps.cl:4000')  
+console.log('Server corriendo en http://localhost:4000')  
