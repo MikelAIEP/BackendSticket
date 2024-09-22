@@ -14,7 +14,7 @@ const swaggerDefinition = {
     servers: [
         {
             url: 'http://localhost:3000/api',
-            description: 'Servidor de desarrollo',
+            description: 'Servidor de Sticket',
         },
     ],
     components: {
