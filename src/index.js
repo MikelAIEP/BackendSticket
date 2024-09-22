@@ -8,12 +8,22 @@ import adminticktes from './routes/adminticktes.js'
 import comentarios from './routes/comentarios.js'
 import adminclientes from './routes/adminclientes.js'
 import swaggerApp from './swagger.js';
+import cors from 'cors'
 
 const app = express()
 app.use(express.json())
 app.use(swaggerApp);
 
+// Configurar CORS
+const corsOptions = {
+    origin: 'http://aps.pregps.cl', // Reemplaza con tu dominio o IP
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+
 app.use('/api', registerRoutes, loginRoutes, listarTickets, busquedaTicket, adminUsuarios, adminticktes, comentarios, adminclientes)
 
-app.listen(3000)
-console.log('Server corriendo en http://localhost:3000')  
+app.listen(4000)
+console.log('Server corriendo en http://localhost:4000')  
