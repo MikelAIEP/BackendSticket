@@ -15,13 +15,7 @@ app.use(express.json())
 app.use(swaggerApp);
 
 // Configurar CORS
-const corsOptions = {
-    origin: 'http://aps.pregps.cl', // Reemplaza con tu dominio o IP
-    optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-
+app.use(cors());
 
 app.use('/api', registerRoutes, loginRoutes, listarTickets, busquedaTicket, adminUsuarios, adminticktes, comentarios, adminclientes)
 

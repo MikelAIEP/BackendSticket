@@ -10,6 +10,7 @@ const prisma = new PrismaClient();
 const saltRounds = 10;
 
 router.post('/login', async (req, res) => {
+    try {
     const { nombre_usuario, password } = req.body;
     const user = await prisma.usuario.findUnique({
         where: {
@@ -34,6 +35,10 @@ router.post('/login', async (req, res) => {
         httpOnly: true    // HttpOnly: no accesible desde JS
     });
     res.json({ message: 'Login exitoso', token });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al iniciar sesión' });
+    }
 });
 /**
  * @swagger
