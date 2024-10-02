@@ -58,10 +58,6 @@ router.post ('/adminticktes/crear', async (req, res) => {
  *               descripcion:
  *                 type: string
  *                 description: La descripción del ticket
- *               fecha_solicitud:
- *                 type: string
- *                 format: date-time
- *                 description: La fecha de solicitud del ticket
  *               estadoid:
  *                 type: integer
  *                 description: El ID del estado del ticket

@@ -63,10 +63,7 @@ router.post('/comentarios/crear', async (req, res) => {
  *               id_usuario:
  *                 type: integer
  *                 description: El ID del usuario que crea el comentario
- *               fecha_comentario:
- *                 type: string
- *                 format: date-time
- *                 description: La fecha del comentario en formato ISO
+ *               
  *     responses:
  *       200:
  *         description: Comentario creado exitosamente
