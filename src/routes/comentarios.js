@@ -21,16 +21,13 @@ router.post('/comentarios/crear', async (req, res) => {
     }
     try {
         const {tipo, detalle, id_ticket, id_usuario, fecha_comentario} = req.body;
-        let Isofecha_comentario = new Date(fecha_comentario).toISOString();
-        //Isofecha_comentario.setHours(Isofecha_comentario.getHours() - 3);
-        
+                
         const comentario = await prisma.comentario.create({
             data: {
                 tipo,
                 detalle,
                 id_ticket,
-                id_usuario,
-                fecha_comentario : Isofecha_comentario
+                id_usuario
             }
         });
         res.json("Comentario creado con exito");

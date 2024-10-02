@@ -21,14 +21,11 @@ router.post ('/adminticktes/crear', async (req, res) => {
   }
   try {
     const {titulo, descripcion, estadoid, prioridadid, id_usuario_creacion  } = req.body;
-    const fechaSolicitud = new Date();
-    fechaSolicitud.setHours(fechaSolicitud.getHours() - 3);
-
+    
     const ticket = await prisma.ticket.create({
         data: {
             titulo,
             descripcion,
-            fecha_solicitud: fechaSolicitud,
             estadoid,
             prioridadid,
             id_usuario_creacion
