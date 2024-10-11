@@ -90,8 +90,7 @@ router.post('/adminusuarios/crear', async (req, res) => {
                 email,
                 nombre_usuario,
                 password: passwordHash,
-                rol,
-                estado
+                rol
             }
             });
             res.json("Usuario creado con exito");
