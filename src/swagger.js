@@ -13,7 +13,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'localhost:4000/api',
+            url: 'http://localhost:4000/api',
             description: 'Servidor de Sticket',
         },
     ],
