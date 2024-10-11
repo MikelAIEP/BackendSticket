@@ -9,6 +9,9 @@ import comentarios from './routes/comentarios.js'
 import adminclientes from './routes/adminclientes.js'
 import swaggerApp from './swagger.js';
 import cors from 'cors'
+require('dotenv').config();
+import dotenv from 'dotenv'
+
 
 const app = express()
 app.use(express.json())

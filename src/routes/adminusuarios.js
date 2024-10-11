@@ -81,19 +81,23 @@ router.post('/adminusuarios/crear', async (req, res) => {
     if (existe === 'true') {
         return res.status(400).json({ error: 'El usuario ya existe' });
     } else {
-        const passwordHash = bcrypt.hashSync(password, saltRounds);
-        const user = await prisma.usuario.create({
-                data: {
-                    nombre,
-                    apellido,
-                    email,
-                    nombre_usuario,
-                    password: passwordHash,
-                    rol,
-                    estado
-                }
+        try {
+            const passwordHash = bcrypt.hashSync(password, saltRounds);
+            const user = await prisma.usuario.create({
+            data: {
+                nombre,
+                apellido,
+                email,
+                nombre_usuario,
+                password: passwordHash,
+                rol,
+                estado
+            }
             });
             res.json("Usuario creado con exito");
+        } catch (error) {
+            res.status(500).json({ error: 'Error al crear el usuario' });
+        }
         }
     
 });
@@ -130,9 +134,6 @@ router.post('/adminusuarios/crear', async (req, res) => {
  *               rol:
  *                 type: string
  *                 description: El rol del usuario
- *               estado:
- *                 type: string
- *                 description: El estado del usuario
  *     responses:
  *       200:
  *         description: Usuario creado exitosamente
