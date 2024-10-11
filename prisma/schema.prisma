@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://taller:taller2024@aps.pregps.cl:3306/Sticket?schema=public"
 }
 
 model Categoria {
